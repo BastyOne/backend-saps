@@ -1,28 +1,19 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "server.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/alumnos",
-        "dest": "/routes/alumnosRoutes.js"
-      },
-      {
-        "src": "/alumnos/(.*)",
-        "dest": "/routes/alumnosRoutes.js"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/server.js"
-      }
-    ],
-    "env": {
-      "SUPABASE_URL": "@supabase-url",
-      "SUPABASE_KEY": "@supabase-key"
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
     }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ],
+  "env": {
+    "SUPABASE_URL": "@supabase-url",
+    "SUPABASE_KEY": "@supabase-key"
   }
-  
+}

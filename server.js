@@ -4,6 +4,11 @@ const app = express();
 
 app.use(express.json());
 
+// Manejo de la ruta raíz
+app.get('/', (req, res) => {
+  res.send('Backend S.A.P.S está funcionando correctamente.');
+});
+
 const alumnosRoutes = require('./routes/alumnosRoutes');
 app.use('/alumnos', alumnosRoutes);
 
