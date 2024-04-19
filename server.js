@@ -10,10 +10,12 @@ app.get('/', (req, res) => {
 });
 
 const alumnosRoutes = require('./routes/alumnosRoutes');
-const personalRoutes = require('./routes/personalRoutes');  
+const personalRoutes = require('./routes/personalRoutes');
+const authRoutes = require('./routes/authRoutes');  
 
 app.use('/alumnos', alumnosRoutes);
-app.use('/personal', personalRoutes);  
+app.use('/personal', personalRoutes);
+app.use('/api/auth', authRoutes);
 
 
 const PORT = process.env.PORT || 3000;
