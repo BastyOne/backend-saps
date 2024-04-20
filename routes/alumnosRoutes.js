@@ -8,7 +8,7 @@ router.post('/add', async (req, res) => {
     const {
         nivel, rut, nombre, apellido, email, contraseña, activo, celular,
         contactoemergencia, categoriaalumno_id, ciudadactual, ciudadprocedencia,
-        suspensiónrangofecha, rol_id
+        suspensiónrangofecha, rol_id, carrera_id
     } = req.body;
 
     // Verificar que la contraseña no esté vacía
@@ -17,6 +17,18 @@ router.post('/add', async (req, res) => {
     }
 
     const saltRounds = 10;
+
+    // Verificar la existencia de carrera_id
+    const carreraExists = await supabase
+        .from('carrera')
+        .select('*')
+        .eq('id', carrera_id)
+        .single();
+
+    if (carreraExists.error || !carreraExists.data) {
+        return res.status(404).send({ error: "La carrera especificada no existe." });
+    }
+
 
     try {
         // Hashear la contraseña
@@ -38,7 +50,8 @@ router.post('/add', async (req, res) => {
                 ciudadactual,
                 ciudadprocedencia,
                 suspensiónrangofecha,
-                rol_id
+                rol_id,
+                carrera_id
             }]);
 
         if (result.error) {
