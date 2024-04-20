@@ -3,34 +3,39 @@ const jwt = require('jsonwebtoken');
 const { supabase } = require('../config/supabaseClient');
 
 exports.login = async (req, res) => {
-    const { email, contraseña } = req.body;
+    const { rut, contraseña } = req.body;
+    const numericRut = rut.split('-')[0];
+
+    if (!rut || !contraseña) {
+        return res.status(400).send({ message: "RUT y contraseña son requeridos." });
+    }
 
     try {
-        let { data: user, error } = await supabase
-            .from('personal')
-            .select('*')
-            .eq('email', email)
-            .single();
+        let user = null;
 
+        const tables = ['personal', 'alumno'];
+        for (const table of tables) {
+            if (!user) {  
+                let response = await supabase
+                    .from(table)
+                    .select('*')
+                    .ilike('rut', `${numericRut}-%`)
+                    .single();
 
-        if (error && !user) {
-            let response = await supabase
-                .from('alumno')
-                .select('*')
-                .eq('email', email)
-                .single();
-            user = response.data;
-            error = response.error;
+                if (response.data) {
+                    user = response.data;
+                    break;  
+                }
+            }
         }
 
+        if (!user) throw new Error('Usuario no encontrado');  
 
-        if (error || !user) throw new Error('Usuario no encontrado');
-
-
+       
         const validPassword = await bcrypt.compare(contraseña, user.contraseña);
         if (!validPassword) throw new Error('Contraseña incorrecta');
 
-
+       
         const token = jwt.sign(
             { userId: user.id, email: user.email, rol: user.rol_id, userType: user.tipopersona_id ? 'personal' : 'alumno' },
             process.env.JWT_SECRET,
