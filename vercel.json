@@ -14,6 +14,7 @@
   ],
   "env": {
     "SUPABASE_URL": "@supabase-url",
-    "SUPABASE_KEY": "@supabase-key"
+    "SUPABASE_KEY": "@supabase-key",
+    "JWT_SECRET": "@jwt-secret" 
   }
 }
