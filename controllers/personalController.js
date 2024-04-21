@@ -1,15 +1,14 @@
-const bcrypt = require('bcrypt');
-const { supabase } = require('../config/supabaseClient');
+const PersonalModel = require('../models/personalModel');
+const personalModel = new PersonalModel();
 
 exports.addPersonal = async (req, res) => {
-    const { tipopersona_id, nombre, email, rol_id, contraseña, rut } = req.body;
     try {
-        const hashedPassword = await bcrypt.hash(contraseña, 10);
-        const { data, error } = await supabase
-            .from('personal')
-            .insert([{ tipopersona_id, nombre, email, rol_id, contraseña: hashedPassword, rut }]);
+        const { data, error } = await personalModel.add(req.body);
 
-        if (error) throw error;
+        if (error) {
+            throw error;
+        }
+
         res.status(201).send({ message: "Personal agregado exitosamente", data });
     } catch (err) {
         res.status(500).send({ error: err.message });
@@ -17,9 +16,19 @@ exports.addPersonal = async (req, res) => {
 };
 
 exports.getAllPersonal = async (req, res) => {
-    const { data, error } = await supabase.from('personal').select('*');
-    if (error) {
-        return res.status(400).send(error);
+    try {
+        const { data, error } = await personalModel.getAll();
+
+        if (error) {
+            return res.status(400).send(error);
+        }
+        
+        res.status(200).send(data);
+    } catch (err) {
+        res.status(500).send({
+            error: "Error interno del servidor",
+            message: err.message,
+            details: err.stack
+        });
     }
-    res.status(200).send(data);
 };

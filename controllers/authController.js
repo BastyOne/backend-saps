@@ -1,6 +1,5 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { supabase } = require('../config/supabaseClient');
+const AuthModel = require('../models/authModel');
+const authModel = new AuthModel();
 
 exports.login = async (req, res) => {
     const { rut, contraseña } = req.body;
@@ -11,39 +10,19 @@ exports.login = async (req, res) => {
     }
 
     try {
-        let user = null;
-
-        const tables = ['personal', 'alumno'];
-        for (const table of tables) {
-            if (!user) {  
-                let response = await supabase
-                    .from(table)
-                    .select('*')
-                    .ilike('rut', `${numericRut}-%`)
-                    .single();
-
-                if (response.data) {
-                    user = response.data;
-                    break;  
-                }
-            }
+        const user = await authModel.findUserByRut(numericRut);
+        if (!user) {
+            return res.status(404).send({ message: 'Usuario no encontrado' });
         }
 
-        if (!user) throw new Error('Usuario no encontrado');  
+        const isValidPassword = await authModel.comparePassword(contraseña, user.contraseña);
+        if (!isValidPassword) {
+            return res.status(403).send({ message: 'Contraseña incorrecta' });
+        }
 
-       
-        const validPassword = await bcrypt.compare(contraseña, user.contraseña);
-        if (!validPassword) throw new Error('Contraseña incorrecta');
-
-       
-        const token = jwt.sign(
-            { userId: user.id, email: user.email, rol: user.rol_id, userType: user.tipopersona_id ? 'personal' : 'alumno' },
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' }
-        );
-
+        const token = authModel.generateToken(user);
         res.status(200).send({ message: "Login exitoso", token });
     } catch (err) {
-        res.status(400).send({ error: err.message });
+        res.status(500).send({ error: err.message });
     }
 };
