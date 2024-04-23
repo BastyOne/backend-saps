@@ -24,6 +24,7 @@ exports.login = async (req, res) => {
         res.status(200).send({
             message: "Login exitoso",
             token,
+            userId: user.id,
             userType: user.tipopersona_id ? 'personal' : 'alumno', 
             rol: user.rol_id  
         });
