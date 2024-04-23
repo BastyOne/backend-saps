@@ -21,8 +21,14 @@ exports.login = async (req, res) => {
         }
 
         const token = authModel.generateToken(user);
-        res.status(200).send({ message: "Login exitoso", token });
-    } catch (err) {
-        res.status(500).send({ error: err.message });
+        res.status(200).send({
+            message: "Login exitoso",
+            token,
+            userType: user.tipopersona_id ? 'personal' : 'alumno', 
+            rol: user.rol_id  
+        });
+    } catch (error) {
+        console.error("Error en el servidor:", error);
+        res.status(500).send({ message: "Error interno del servidor", error: error.message });
     }
 };

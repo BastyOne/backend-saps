@@ -11,11 +11,11 @@ class AuthModel {
                 .from(table)
                 .select('*')
                 .ilike('rut', `${rut}-%`)
-                .maybeSingle(); 
+                .maybeSingle();
 
             if (response.data) {
                 user = response.data;
-                break;  
+                break;
             }
 
             if (response.error && response.error.code !== 'PGRST116') {
@@ -31,8 +31,9 @@ class AuthModel {
     }
 
     generateToken(user) {
+        const userType = user.tipopersona_id ? 'personal' : 'alumno';  
         return jwt.sign(
-            { userId: user.id, email: user.email, rol: user.rol_id, userType: user.tipopersona_id ? 'personal' : 'alumno' },
+            { userId: user.id, email: user.email, rol: user.rol_id, userType: userType },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
