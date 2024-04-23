@@ -32,3 +32,15 @@ exports.getAllPersonal = async (req, res) => {
         });
     }
 };
+
+exports.getPersonalById = async (req, res) => {
+    const { personalId } = req.params;
+
+    try {
+        const personal = await personalModel.getById(personalId);
+        res.status(200).json(personal);
+    } catch (error) {
+        console.error("Error al obtener información del personal:", error);
+        res.status(500).json({ message: "Error interno del servidor", error: error.message });
+    }
+};

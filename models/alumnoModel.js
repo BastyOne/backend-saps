@@ -15,9 +15,30 @@ class Alumno {
   }
 
   async getAll() {
-    const { data, error } = await supabase.from('alumno').select('*');
+    const { data, error } = await supabase
+    .from('alumno')
+    .select('*');
     return { data, error };
   }
+
+  async getById(alumnoId) {
+    const { data, error } = await supabase
+        .from('alumno')
+        .select(`
+            nombre,
+            rut,
+            email,
+            carrera: carrera_id (
+                nombre
+            )
+        `)
+        .eq('id', alumnoId)
+        .single(); 
+
+    if (error) throw new Error('Error al obtener el alumno: ' + error.message);
+    return data;
+}
+
 }
 
 module.exports = Alumno;

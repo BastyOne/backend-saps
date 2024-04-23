@@ -16,6 +16,26 @@ class Personal {
     const { data, error } = await supabase.from('personal').select('*');
     return { data, error };
   }
+
+  async getById(personalId) {
+    const { data, error } = await supabase
+      .from('personal')
+      .select(`
+        id,
+        nombre,
+        rut,
+        email,
+        TipoPersona: tipopersona_id (nombre)
+      `)  
+      .eq('id', personalId)
+      .single();  
+
+    if (error) {
+      throw new Error('Error al obtener el personal: ' + error.message);
+    }
+    return data;
+  }
 }
+
 
 module.exports = Personal;
