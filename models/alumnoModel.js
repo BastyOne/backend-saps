@@ -37,7 +37,7 @@ class Alumno {
       throw new Error('Error al obtener el alumno: ' + alumnoError.message);
     }
 
-    // Ahora busca la foto del alumno si existe
+
     if (alumno) {
       const { data: fotos, error: fotoError } = await supabase
         .from('archivo')
@@ -50,7 +50,7 @@ class Alumno {
         return { ...alumno, foto: null };
       }
 
-      // Agrega la URL de la foto al objeto alumno si existe alguna foto
+
       return { ...alumno, foto: fotos.length > 0 ? fotos[0].archivo_url : null };
     }
 

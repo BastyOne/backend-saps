@@ -18,24 +18,40 @@ class Personal {
   }
 
   async getById(personalId) {
-    const { data, error } = await supabase
+    const { data: personal, error: personalError } = await supabase
       .from('personal')
       .select(`
-        id,
         nombre,
         rut,
         email,
         TipoPersona: tipopersona_id (nombre)
-      `)  
+      `)
       .eq('id', personalId)
-      .single();  
+      .single();
 
-    if (error) {
-      throw new Error('Error al obtener el personal: ' + error.message);
+    if (personalError) {
+      throw new Error('Error al obtener el personal: ' + personalError.message);
     }
-    return data;
+
+
+    if (personal) {
+      const { data: fotos, error: fotoError } = await supabase
+        .from('archivo')
+        .select('archivo_url')
+        .eq('entidad_id', personalId)
+        .eq('entidad_tipo', 'Personal');
+
+      if (fotoError) {
+        console.error('Error al recuperar fotos para el personal:', fotoError);
+        return { ...personal, foto: null }; 
+      }
+
+
+      return { ...personal, foto: fotos.length > 0 ? fotos[0].archivo_url : null };
+    }
+
+    return null;
   }
 }
-
 
 module.exports = Personal;
