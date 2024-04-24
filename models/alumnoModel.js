@@ -15,8 +15,46 @@ class Alumno {
   }
 
   async getAll() {
-    const { data, error } = await supabase.from('alumno').select('*');
+    const { data, error } = await supabase
+      .from('alumno')
+      .select('*');
     return { data, error };
+  }
+
+  async getById(alumnoId) {
+    const { data: alumno, error: alumnoError } = await supabase
+      .from('alumno')
+      .select(`
+        nombre,
+        rut,
+        email,
+        carrera: carrera_id (nombre)
+      `)
+      .eq('id', alumnoId)
+      .single();
+
+    if (alumnoError) {
+      throw new Error('Error al obtener el alumno: ' + alumnoError.message);
+    }
+
+
+    if (alumno) {
+      const { data: fotos, error: fotoError } = await supabase
+        .from('archivo')
+        .select('archivo_url')
+        .eq('entidad_id', alumnoId)
+        .eq('entidad_tipo', 'Alumno');
+
+      if (fotoError) {
+        console.error('Error al recuperar fotos para el alumno:', fotoError);
+        return { ...alumno, foto: null };
+      }
+
+
+      return { ...alumno, foto: fotos.length > 0 ? fotos[0].archivo_url : null };
+    }
+
+    return null;
   }
 }
 

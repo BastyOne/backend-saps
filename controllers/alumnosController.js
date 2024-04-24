@@ -38,3 +38,21 @@ exports.getAllAlumnos = async (req, res) => {
         });
     }
 };
+
+exports.getAlumnoById = async (req, res) => {
+    const { alumnoId } = req.params;
+
+    try {
+        const alumno = await alumnoModel.getById(alumnoId);
+        if (!alumno) {
+            return res.status(404).json({ message: "Alumno no encontrado" });
+        }
+        res.status(200).json(alumno);
+    } catch (error) {
+        console.error("Error al obtener información del alumno:", error);
+        res.status(500).json({ message: "Error interno del servidor", error: error.message });
+    }
+};
+
+
+
