@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post('/add', authenticateToken, addPersonal);
 router.get('/', authenticateToken, getAllPersonal);
-router.get('/:personalId', getPersonalById);
+router.get('/:personalId', authenticateToken, getPersonalById);
 
 module.exports = router;

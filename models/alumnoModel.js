@@ -26,6 +26,7 @@ class Alumno {
       .from('alumno')
       .select(`
         nombre,
+        apellido,
         rut,
         email,
         carrera: carrera_id (nombre)
