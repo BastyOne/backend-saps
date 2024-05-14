@@ -1,4 +1,4 @@
-const MensajeDiario = require('../models/mensajediarioModel');
+const MensajeDiario = require('../models/mensajediarioModel'); // Import the model
 const mensajeDiario = new MensajeDiario();
 
 exports.getMensajesConImagenes = async (req, res) => {
