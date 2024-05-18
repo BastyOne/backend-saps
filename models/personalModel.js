@@ -13,7 +13,17 @@ class Personal {
   }
 
   async getAll() {
-    const { data, error } = await supabase.from('personal').select('*');
+    const { data, error } = await supabase
+      .from('personal')
+      .select(`
+        *,
+        tipopersona:tipopersona_id (nombre)
+      `);
+
+    if (error) {
+      throw new Error('Error al obtener personal: ' + error.message);
+    }
+
     return { data, error };
   }
 
@@ -24,7 +34,7 @@ class Personal {
         nombre,
         rut,
         email,
-        TipoPersona: tipopersona_id (nombre)
+        tipopersona:tipopersona_id (nombre)
       `)
       .eq('id', personalId)
       .single();
@@ -32,7 +42,6 @@ class Personal {
     if (personalError) {
       throw new Error('Error al obtener el personal: ' + personalError.message);
     }
-
 
     if (personal) {
       const { data: fotos, error: fotoError } = await supabase
@@ -43,9 +52,8 @@ class Personal {
 
       if (fotoError) {
         console.error('Error al recuperar fotos para el personal:', fotoError);
-        return { ...personal, foto: null }; 
+        return { ...personal, foto: null };
       }
-
 
       return { ...personal, foto: fotos.length > 0 ? fotos[0].archivo_url : null };
     }

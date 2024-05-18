@@ -42,13 +42,37 @@ class Incidencia {
 
       if (archivoError) {
         console.error('Error al recuperar archivos para la incidencia:', archivoError);
-        return { ...incidencia, archivos: [] }; 
+        return { ...incidencia, archivos: [] };
       }
 
-      return { ...incidencia, archivos }; 
+      return { ...incidencia, archivos };
     }));
 
     return incidenciasConArchivos;
+  }
+
+  // Método para obtener categorías padre
+  async getCategoriasPadre() {
+    const { data, error } = await supabase
+      .from('categoriaincidencia')
+      .select('*')
+      .is('categoriapadre_id', null);
+
+    if (error) throw new Error('Error al obtener categorías padre: ' + error.message);
+
+    return data;
+  }
+
+  // Método para obtener categorías hijo
+  async getCategoriasHijo(padreId) {
+    const { data, error } = await supabase
+      .from('categoriaincidencia')
+      .select('*')
+      .eq('categoriapadre_id', padreId);
+
+    if (error) throw new Error('Error al obtener categorías hijo: ' + error.message);
+
+    return data;
   }
 }
 

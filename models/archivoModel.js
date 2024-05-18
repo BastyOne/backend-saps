@@ -6,15 +6,37 @@ class Archivo {
             throw new Error('Archivo no válido o faltan datos necesarios.');
         }
 
+        // Reemplazar espacios en el nombre del archivo
+        const safeFileName = archivo.originalname.replace(/\s/g, '_');
+
         const { data: uploadData, error: uploadError } = await supabase.storage
             .from('archivos')
-            .upload(`${entidad_tipo}/${entidad_id}/${archivo.originalname}`, archivo.buffer);
+            .upload(`${entidad_tipo}/${entidad_id}/${safeFileName}`, archivo.buffer);
 
         if (uploadError) {
             throw new Error('Error al subir el archivo: ' + uploadError.message);
         }
 
-        const archivoUrl = `https://[sxgobywsaifnczjstxqe].supabase.co/storage/v1/object/public/${uploadData.fullPath}`;
+        // Verificar si la subida fue exitosa
+        if (!uploadData) {
+            throw new Error('Error: no se recibieron datos después de la subida del archivo.');
+        }
+
+        // Generar URL firmada para el archivo subido
+        const filePath = `${entidad_tipo}/${entidad_id}/${safeFileName}`;
+        const { data: signedURLData, error: signedUrlError } = await supabase.storage
+            .from('archivos')
+            .createSignedUrl(filePath, 60 * 60); // URL válida por 1 hora
+
+        if (signedUrlError) {
+            throw new Error('Error al generar URL firmada: ' + signedUrlError.message);
+        }
+
+        if (!signedURLData || !signedURLData.signedUrl) {
+            throw new Error('Error: no se recibió una URL firmada.');
+        }
+
+        const archivoUrl = signedURLData.signedUrl;
 
         const { data: archivoData, error: archivoInsertError } = await supabase
             .from('archivo')
@@ -22,7 +44,7 @@ class Archivo {
                 entidad_tipo,
                 entidad_id,
                 archivo_url: archivoUrl,
-                archivo_nombre: archivo.originalname,
+                archivo_nombre: safeFileName,
             }])
             .select();
 

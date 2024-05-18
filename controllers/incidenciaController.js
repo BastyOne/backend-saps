@@ -47,3 +47,27 @@ exports.getIncidenciasPorPersonal = async (req, res) => {
     }
 };
 
+// Función para obtener categorías padre
+exports.getCategoriasPadre = async (req, res) => {
+    try {
+        const categoriasPadre = await incidenciaModel.getCategoriasPadre();
+        res.status(200).json(categoriasPadre);
+    } catch (error) {
+        console.error("Error al obtener categorías padre:", error);
+        res.status(500).json({ message: "Error interno del servidor", error: error.message });
+    }
+};
+
+// Función para obtener categorías hijo
+exports.getCategoriasHijo = async (req, res) => {
+    const { padreId } = req.params;
+
+    try {
+        const categoriasHijo = await incidenciaModel.getCategoriasHijo(padreId);
+        res.status(200).json(categoriasHijo);
+    } catch (error) {
+        console.error("Error al obtener categorías hijo:", error);
+        res.status(500).json({ message: "Error interno del servidor", error: error.message });
+    }
+};
+
