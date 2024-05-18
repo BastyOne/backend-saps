@@ -1,20 +1,18 @@
 const IncidenciaModel = require('../models/incidenciaModel');
 const ArchivoModel = require('../models/archivoModel');
-const upload = require('../middleware/uploadMiddleware');
 
 const incidenciaModel = new IncidenciaModel();
 const archivoModel = new ArchivoModel();
 
 exports.createIncidencia = async (req, res) => {
-    const { alumno_id, categoriaincidencia_id, descripcion, personal_id, prioridad } = req.body;
+    const { alumno_id, categoriaincidencia_id, descripcion, personal_id, prioridad, carrera_id } = req.body;
     const archivo = req.file;
 
     try {
         const incidenciaData = await incidenciaModel.add({
-            alumno_id, categoriaincidencia_id, descripcion, personal_id, prioridad
+            alumno_id, categoriaincidencia_id, descripcion, personal_id, prioridad, carrera_id
         });
 
-        // Asegúrate de que incidenciaData existe antes de proceder
         if (!incidenciaData) {
             return res.status(400).send({ message: "Error al crear la incidencia, no se recibieron datos." });
         }
@@ -47,7 +45,6 @@ exports.getIncidenciasPorPersonal = async (req, res) => {
     }
 };
 
-// Función para obtener categorías padre
 exports.getCategoriasPadre = async (req, res) => {
     try {
         const categoriasPadre = await incidenciaModel.getCategoriasPadre();
@@ -58,7 +55,6 @@ exports.getCategoriasPadre = async (req, res) => {
     }
 };
 
-// Función para obtener categorías hijo
 exports.getCategoriasHijo = async (req, res) => {
     const { padreId } = req.params;
 
@@ -70,4 +66,3 @@ exports.getCategoriasHijo = async (req, res) => {
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
 };
-

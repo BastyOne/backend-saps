@@ -31,9 +31,9 @@ class AuthModel {
     }
 
     generateToken(user) {
-        const userType = user.tipopersona_id ? 'personal' : 'alumno';  
+        const userType = user.tipopersona_id ? 'personal' : 'alumno';
         return jwt.sign(
-            { userId: user.id, email: user.email, rol: user.rol_id, userType: userType },
+            { userId: user.id, email: user.email, rol: user.rol_id, userType: userType, carrera_id: user.carrera_id },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );

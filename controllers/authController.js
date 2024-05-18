@@ -25,8 +25,9 @@ exports.login = async (req, res) => {
             message: "Login exitoso",
             token,
             userId: user.id,
-            userType: user.tipopersona_id ? 'personal' : 'alumno', 
-            rol: user.rol_id  
+            userType: user.tipopersona_id ? 'personal' : 'alumno',
+            rol: user.rol_id,
+            carrera_id: user.carrera_id
         });
     } catch (error) {
         console.error("Error en el servidor:", error);

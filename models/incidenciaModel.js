@@ -1,7 +1,7 @@
 const { supabase } = require('../config/supabaseClient');
 
 class Incidencia {
-  async add({ alumno_id, categoriaincidencia_id, descripcion, personal_id, prioridad }) {
+  async add({ alumno_id, categoriaincidencia_id, descripcion, personal_id, prioridad, carrera_id }) {
     const { data, error } = await supabase
       .from('incidencia')
       .insert([{
@@ -9,6 +9,7 @@ class Incidencia {
         categoriaincidencia_id,
         descripcion,
         personal_id,
+        carrera_id,
         estado: 'pendiente',
         fechahoracreacion: new Date(),
         reabierta: false,
@@ -32,7 +33,7 @@ class Incidencia {
       throw new Error('Error al obtener incidencias: ' + incidenciaError.message);
     }
 
-    // Ahora para cada incidencia, consulta los archivos asociados.
+    // Para cada incidencia, consulta los archivos asociados.
     const incidenciasConArchivos = await Promise.all(incidencias.map(async incidencia => {
       const { data: archivos, error: archivoError } = await supabase
         .from('archivo')
