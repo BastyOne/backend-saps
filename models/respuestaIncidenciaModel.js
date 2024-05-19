@@ -18,6 +18,19 @@ class RespuestaIncidencia {
 
     return data[0];
   }
+
+  async getRespuestasPorIncidenciaId(incidencia_id) {
+    const { data, error } = await supabase
+      .from('respuestaincidencia')
+      .select('*')
+      .eq('incidencia_id', incidencia_id);
+
+    if (error) {
+      throw new Error('Error al obtener respuestas: ' + error.message);
+    }
+
+    return data;
+  }
 }
 
 module.exports = RespuestaIncidencia;

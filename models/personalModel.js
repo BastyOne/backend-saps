@@ -38,14 +38,20 @@ class Personal {
         tipopersona:tipopersona_id (nombre),
         carrera:carrera_id (nombre)
       `)
-      .eq('id', personalId)
-      .single();
+      .eq('id', personalId);
 
     if (personalError) {
       throw new Error('Error al obtener el personal: ' + personalError.message);
     }
 
-    if (personal) {
+
+    if (personal.length === 0) {
+      throw new Error('No se encontró el personal con el ID especificado');
+    } else if (personal.length > 1) {
+      throw new Error('Múltiples registros encontrados para el mismo ID');
+    }
+
+    if (personal.length === 1) {
       const { data: fotos, error: fotoError } = await supabase
         .from('archivo')
         .select('archivo_url')
@@ -54,10 +60,10 @@ class Personal {
 
       if (fotoError) {
         console.error('Error al recuperar fotos para el personal:', fotoError);
-        return { ...personal, foto: null };
+        return { ...personal[0], foto: null };
       }
 
-      return { ...personal, foto: fotos.length > 0 ? fotos[0].archivo_url : null };
+      return { ...personal[0], foto: fotos.length > 0 ? fotos[0].archivo_url : null };
     }
 
     return null;

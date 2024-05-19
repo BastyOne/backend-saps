@@ -52,6 +52,23 @@ class Incidencia {
     return incidenciasConArchivos;
   }
 
+  async getByAlumnoId(alumnoId) {
+    const { data: incidencias, error: incidenciaError } = await supabase
+      .from('incidencia')
+      .select(`
+        *,
+        reunion(*),
+        respuestaincidencia(*)
+      `)
+      .eq('alumno_id', alumnoId);
+
+    if (incidenciaError) {
+      throw new Error('Error al obtener incidencias: ' + incidenciaError.message);
+    }
+
+    return incidencias;
+  }
+
   // Método para obtener categorías padre
   async getCategoriasPadre() {
     const { data, error } = await supabase

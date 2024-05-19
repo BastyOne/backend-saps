@@ -66,3 +66,15 @@ exports.getCategoriasHijo = async (req, res) => {
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
 };
+
+exports.getIncidenciasPorAlumno = async (req, res) => {
+    const { alumnoId } = req.params;
+
+    try {
+        const incidencias = await incidenciaModel.getByAlumnoId(alumnoId);
+        res.status(200).json(incidencias);
+    } catch (error) {
+        console.error("Error al obtener incidencias para el alumno:", error);
+        res.status(500).json({ message: "Error interno del servidor", error: error.message });
+    }
+};
