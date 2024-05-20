@@ -1,6 +1,6 @@
 const express = require('express');
 const { createIncidencia, getIncidenciasPorPersonal, getCategoriasPadre, getCategoriasHijo, getIncidenciasPorAlumno } = require('../controllers/incidenciaController');
-const { responderIncidencia } = require('../controllers/respuestaIncidenciaController');
+const { responderIncidencia, getRespuestasPorIncidencia } = require('../controllers/respuestaIncidenciaController');
 const upload = require('../middleware/uploadMiddleware');
 const authenticateToken = require('../middleware/authMiddleware');
 
@@ -15,6 +15,7 @@ router.get('/categoriasHijo/:padreId', authenticateToken, getCategoriasHijo);
 router.post('/responder', authenticateToken, responderIncidencia);
 
 router.get('/porAlumno/:alumnoId', authenticateToken, getIncidenciasPorAlumno);
+router.get('/respuestasPorIncidencia/:incidenciaId', authenticateToken, getRespuestasPorIncidencia);
 
 
 module.exports = router;

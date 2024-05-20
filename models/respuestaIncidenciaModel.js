@@ -1,12 +1,13 @@
 const { supabase } = require('../config/supabaseClient');
 
 class RespuestaIncidencia {
-  async addRespuesta({ incidencia_id, personal_id, contenido }) {
+  async addRespuesta({ incidencia_id, remitente_id, remitente_tipo, contenido }) {
     const { data, error } = await supabase
       .from('respuestaincidencia')
       .insert([{
         incidencia_id,
-        personal_id,
+        remitente_id,
+        remitente_tipo,
         contenido,
         fecharespuesta: new Date()
       }])
@@ -23,7 +24,8 @@ class RespuestaIncidencia {
     const { data, error } = await supabase
       .from('respuestaincidencia')
       .select('*')
-      .eq('incidencia_id', incidencia_id);
+      .eq('incidencia_id', incidencia_id)
+      .order('fecharespuesta', { ascending: true });
 
     if (error) {
       throw new Error('Error al obtener respuestas: ' + error.message);
