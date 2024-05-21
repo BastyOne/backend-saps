@@ -78,3 +78,21 @@ exports.getIncidenciasPorAlumno = async (req, res) => {
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
 };
+
+exports.cerrarIncidencia = async (req, res) => {
+    const { incidenciaId } = req.params;
+
+    try {
+        const incidenciaData = await incidenciaModel.cerrarIncidencia(incidenciaId);
+
+        if (!incidenciaData) {
+            return res.status(400).send({ message: "Error al cerrar la incidencia, no se encontraron datos." });
+        }
+
+        res.status(200).send({ message: "Incidencia cerrada exitosamente", incidencia: incidenciaData });
+    } catch (error) {
+        console.error("Error interno del servidor:", error);
+        res.status(500).send({ message: "Error interno del servidor", error: error.message });
+    }
+};
+

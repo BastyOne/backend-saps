@@ -96,6 +96,19 @@ class Incidencia {
 
     return data;
   }
+
+  async cerrarIncidencia(incidenciaId) {
+    const { data, error } = await supabase
+      .from('incidencia')
+      .update({ estado: 'cerrada', fechahoracierre: new Date() })
+      .eq('id', incidenciaId)
+      .select();
+
+    if (error) throw new Error('Error al cerrar la incidencia: ' + error.message);
+    if (!data || data.length === 0) throw new Error('No se encontró la incidencia para cerrar');
+
+    return data[0];
+  }
 }
 
 module.exports = Incidencia;
