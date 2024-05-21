@@ -26,7 +26,11 @@ class Incidencia {
   async getByPersonalId(personalId) {
     const { data: incidencias, error: incidenciaError } = await supabase
       .from('incidencia')
-      .select('*')
+      .select(`
+        *,
+        reunion(*),
+        respuestaincidencia(*)
+      `)
       .eq('personal_id', personalId);
 
     if (incidenciaError) {
