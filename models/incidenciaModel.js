@@ -28,6 +28,7 @@ class Incidencia {
       .from('incidencia')
       .select(`
         *,
+        alumno:alumno_id(id, nombre, apellido, rut, email, carrera: carrera_id (nombre)),
         reunion(*),
         respuestaincidencia(*)
       `)
