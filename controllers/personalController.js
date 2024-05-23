@@ -1,7 +1,7 @@
-const PersonalModel = require('../models/personalModel');
+import PersonalModel from '../models/personalModel.js';
 const personalModel = new PersonalModel();
 
-exports.addPersonal = async (req, res) => {
+export async function addPersonal(req, res) {
     try {
         const { data, error } = await personalModel.add(req.body);
 
@@ -13,9 +13,9 @@ exports.addPersonal = async (req, res) => {
     } catch (err) {
         res.status(500).send({ error: err.message });
     }
-};
+}
 
-exports.getAllPersonal = async (req, res) => {
+export async function getAllPersonal(req, res) {
     try {
         const { data, error } = await personalModel.getAll();
 
@@ -31,9 +31,9 @@ exports.getAllPersonal = async (req, res) => {
             details: err.stack
         });
     }
-};
+}
 
-exports.getPersonalById = async (req, res) => {
+export async function getPersonalById(req, res) {
     const { personalId } = req.params;
 
     try {
@@ -46,4 +46,4 @@ exports.getPersonalById = async (req, res) => {
         console.error("Error al obtener información del personal:", error);
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
-};
+}

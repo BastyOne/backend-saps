@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const authenticateToken = require('../middleware/authMiddleware');
-const mensajeDiarioController = require('../controllers/mensajeDiarioController');
+import { Router } from 'express';
+const router = Router();
+import authenticateToken from '../middleware/authMiddleware.js';
+import { getMensajesConImagenes, toggleActivo } from '../controllers/mensajeDiarioController.js';
 
-router.get('/mensajes-diarios', authenticateToken, mensajeDiarioController.getMensajesConImagenes);
-router.put('/mensajes-diarios/:id/activo', authenticateToken, mensajeDiarioController.toggleActivo);
+router.get('/mensajes-diarios', authenticateToken, getMensajesConImagenes);
+router.put('/mensajes-diarios/:id/activo', authenticateToken, toggleActivo);
 
-module.exports = router;
+export default router;

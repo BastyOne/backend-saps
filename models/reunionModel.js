@@ -1,4 +1,4 @@
-const { supabase } = require('../config/supabaseClient');
+import { supabase } from '../config/supabaseClient.js';
 
 class Reunion {
     async agregarReunion({ fecha, hora, lugar, tema, incidencia_id }) {
@@ -21,4 +21,4 @@ class Reunion {
     }
 }
 
-module.exports = Reunion;
+export default Reunion;

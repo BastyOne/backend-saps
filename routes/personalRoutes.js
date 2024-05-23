@@ -1,10 +1,10 @@
-const express = require('express');
-const { addPersonal, getAllPersonal, getPersonalById } = require('../controllers/personalController');
-const authenticateToken = require('../middleware/authMiddleware');
-const router = express.Router();
+import { Router } from 'express';
+import { addPersonal, getAllPersonal, getPersonalById } from '../controllers/personalController.js';
+import authenticateToken from '../middleware/authMiddleware.js';
+const router = Router();
 
 router.post('/add', authenticateToken, addPersonal);
 router.get('/', authenticateToken, getAllPersonal);
 router.get('/:personalId', authenticateToken, getPersonalById);
 
-module.exports = router;
+export default router;

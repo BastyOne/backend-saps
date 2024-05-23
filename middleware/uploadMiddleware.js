@@ -1,3 +1,3 @@
-const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage() });
-module.exports = upload;
+import multer, { memoryStorage } from 'multer';
+const upload = multer({ storage: memoryStorage() });
+export default upload;

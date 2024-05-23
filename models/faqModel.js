@@ -1,4 +1,4 @@
-const { supabase } = require('../config/supabaseClient');
+import { supabase } from '../config/supabaseClient.js';
 
 class FAQ {
   async getAll() {
@@ -26,4 +26,4 @@ class FAQ {
   }
 }
 
-module.exports = FAQ;
+export default FAQ;

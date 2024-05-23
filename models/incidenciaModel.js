@@ -1,4 +1,4 @@
-const { supabase } = require('../config/supabaseClient');
+import { supabase } from '../config/supabaseClient.js';
 
 class Incidencia {
   async add({ alumno_id, categoriaincidencia_id, descripcion, personal_id, prioridad, carrera_id }) {
@@ -125,4 +125,4 @@ class Incidencia {
   }
 }
 
-module.exports = Incidencia;
+export default Incidencia;

@@ -1,7 +1,7 @@
-const AlumnoModel = require('../models/alumnoModel');
+import AlumnoModel from '../models/alumnoModel.js';
 const alumnoModel = new AlumnoModel();
 
-exports.addAlumno = async (req, res) => {
+export const addAlumno = async (req, res) => {
     try {
         const { data, error } = await alumnoModel.add(req.body);
 
@@ -21,14 +21,14 @@ exports.addAlumno = async (req, res) => {
     }
 };
 
-exports.getAllAlumnos = async (req, res) => {
+export const getAllAlumnos = async (req, res) => {
     try {
         const { data, error } = await alumnoModel.getAll();
 
         if (error) {
             return res.status(400).send(error);
         }
-        
+
         res.status(200).send(data);
     } catch (err) {
         res.status(500).send({
@@ -39,7 +39,7 @@ exports.getAllAlumnos = async (req, res) => {
     }
 };
 
-exports.getAlumnoById = async (req, res) => {
+export const getAlumnoById = async (req, res) => {
     const { alumnoId } = req.params;
 
     try {
@@ -53,6 +53,3 @@ exports.getAlumnoById = async (req, res) => {
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
 };
-
-
-

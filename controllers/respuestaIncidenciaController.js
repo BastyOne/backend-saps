@@ -1,7 +1,7 @@
-const RespuestaIncidenciaModel = require('../models/respuestaIncidenciaModel');
+import RespuestaIncidenciaModel from '../models/respuestaIncidenciaModel.js';
 const respuestaIncidenciaModel = new RespuestaIncidenciaModel();
 
-exports.responderIncidencia = async (req, res) => {
+export async function responderIncidencia(req, res) {
   const { incidencia_id, remitente_id, remitente_tipo, contenido } = req.body;
 
   try {
@@ -17,9 +17,9 @@ exports.responderIncidencia = async (req, res) => {
     console.error("Error al responder la incidencia:", error);
     res.status(500).json({ message: "Error interno del servidor", error: error.message });
   }
-};
+}
 
-exports.getRespuestasPorIncidencia = async (req, res) => {
+export async function getRespuestasPorIncidencia(req, res) {
   const { incidenciaId } = req.params;
 
   try {
@@ -29,4 +29,4 @@ exports.getRespuestasPorIncidencia = async (req, res) => {
     console.error("Error al obtener respuestas de la incidencia:", error);
     res.status(500).json({ message: "Error interno del servidor", error: error.message });
   }
-};
+}
