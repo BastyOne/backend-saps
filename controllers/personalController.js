@@ -22,7 +22,7 @@ exports.getAllPersonal = async (req, res) => {
         if (error) {
             return res.status(400).send(error);
         }
-        
+
         res.status(200).send(data);
     } catch (err) {
         res.status(500).send({
@@ -47,4 +47,3 @@ exports.getPersonalById = async (req, res) => {
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
 };
-

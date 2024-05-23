@@ -15,16 +15,21 @@ const alumnosRoutes = require('./routes/alumnosRoutes');
 const personalRoutes = require('./routes/personalRoutes');
 const authRoutes = require('./routes/authRoutes');
 const faqRoutes = require('./routes/faqRoutes');
+const incidenciaRoutes = require('./routes/incidenciaRoutes');
+const reunionRoutes = require('./routes/reunionRoutes');
 const mensajeDiarioRoutes = require('./routes/mensajeDiarioRoutes');
 
 app.use('/alumnos', alumnosRoutes);
 app.use('/personal', personalRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/faq', faqRoutes);
+app.use('/api/incidencia', incidenciaRoutes);
+app.use('/api/reunion', reunionRoutes);
+
 app.use('/api', mensajeDiarioRoutes);
 
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://192.168.100.81:${PORT}`);
 });
