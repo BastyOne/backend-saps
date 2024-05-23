@@ -96,3 +96,20 @@ exports.cerrarIncidencia = async (req, res) => {
     }
 };
 
+exports.reabrirIncidencia = async (req, res) => {
+    const { incidenciaId } = req.params;
+
+    try {
+        const incidenciaData = await incidenciaModel.reabrirIncidencia(incidenciaId);
+
+        if (!incidenciaData) {
+            return res.status(400).send({ message: "Error al reabrir la incidencia, no se encontraron datos." });
+        }
+
+        res.status(200).send({ message: "Incidencia reabierta exitosamente", incidencia: incidenciaData });
+    } catch (error) {
+        console.error("Error interno del servidor:", error);
+        res.status(500).send({ message: "Error interno del servidor", error: error.message });
+    }
+};
+

@@ -1,5 +1,5 @@
 const express = require('express');
-const { createIncidencia, getIncidenciasPorPersonal, getCategoriasPadre, getCategoriasHijo, getIncidenciasPorAlumno, cerrarIncidencia } = require('../controllers/incidenciaController');
+const { createIncidencia, getIncidenciasPorPersonal, getCategoriasPadre, getCategoriasHijo, getIncidenciasPorAlumno, cerrarIncidencia, reabrirIncidencia } = require('../controllers/incidenciaController');
 const { responderIncidencia, getRespuestasPorIncidencia } = require('../controllers/respuestaIncidenciaController');
 const upload = require('../middleware/uploadMiddleware');
 const authenticateToken = require('../middleware/authMiddleware');
@@ -18,5 +18,6 @@ router.get('/porAlumno/:alumnoId', authenticateToken, getIncidenciasPorAlumno);
 router.get('/respuestasPorIncidencia/:incidenciaId', authenticateToken, getRespuestasPorIncidencia);
 
 router.put('/cerrar/:incidenciaId', authenticateToken, cerrarIncidencia);
+router.put('/reabrir/:incidenciaId', authenticateToken, reabrirIncidencia);
 
 module.exports = router;

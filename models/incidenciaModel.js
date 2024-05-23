@@ -110,6 +110,19 @@ class Incidencia {
 
     return data[0];
   }
+
+  async reabrirIncidencia(incidenciaId) {
+    const { data, error } = await supabase
+      .from('incidencia')
+      .update({ estado: 'pendiente', fechahoracierre: null, reabierta: true })
+      .eq('id', incidenciaId)
+      .select();
+
+    if (error) throw new Error('Error al reabrir la incidencia: ' + error.message);
+    if (!data || data.length === 0) throw new Error('No se encontró la incidencia para reabrir');
+
+    return data[0];
+  }
 }
 
 module.exports = Incidencia;
