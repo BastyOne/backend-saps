@@ -1,4 +1,4 @@
-const { supabase } = require('../config/supabaseClient');
+import { supabase } from '../config/supabaseClient.js';
 
 class Archivo {
     async agregarArchivo({ entidad_tipo, entidad_id, archivo }) {
@@ -60,4 +60,4 @@ class Archivo {
     }
 }
 
-module.exports = Archivo;
+export default Archivo;

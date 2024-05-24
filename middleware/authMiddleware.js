@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];  
+    const token = authHeader && authHeader.split(' ')[1];
 
     if (token == null) {
         return res.status(401).send({ message: 'No token provided' });
@@ -12,9 +12,9 @@ const authenticateToken = (req, res, next) => {
         if (err) {
             return res.status(403).send({ message: 'Token is invalid' });
         }
-        req.user = decoded;  
-        next();  
+        req.user = decoded;
+        next();
     });
 };
 
-module.exports = authenticateToken;
+export default authenticateToken;

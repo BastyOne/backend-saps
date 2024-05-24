@@ -1,8 +1,8 @@
-const express = require('express');
-const { createIncidencia, getIncidenciasPorPersonal, getCategoriasPadre, getCategoriasHijo, getIncidenciasPorAlumno, cerrarIncidencia, reabrirIncidencia } = require('../controllers/incidenciaController');
-const { responderIncidencia, getRespuestasPorIncidencia } = require('../controllers/respuestaIncidenciaController');
-const upload = require('../middleware/uploadMiddleware');
-const authenticateToken = require('../middleware/authMiddleware');
+import express from 'express';
+import { createIncidencia, getIncidenciasPorPersonal, getCategoriasPadre, getCategoriasHijo, getIncidenciasPorAlumno, cerrarIncidencia, reabrirIncidencia } from '../controllers/incidenciaController.js';
+import { responderIncidencia, getRespuestasPorIncidencia } from '../controllers/respuestaIncidenciaController.js';
+import upload from '../middleware/uploadMiddleware.js';
+import authenticateToken from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -20,4 +20,4 @@ router.get('/respuestasPorIncidencia/:incidenciaId', authenticateToken, getRespu
 router.put('/cerrar/:incidenciaId', authenticateToken, cerrarIncidencia);
 router.put('/reabrir/:incidenciaId', authenticateToken, reabrirIncidencia);
 
-module.exports = router;
+export default router;

@@ -1,9 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const { programarReunion } = require('../controllers/reunionController');
-const authenticateToken = require('../middleware/authMiddleware');
+import { Router } from 'express';
+import { programarReunion } from '../controllers/reunionController.js';
+import authenticateToken from '../middleware/authMiddleware.js';
+const router = Router();
+
 
 // Define la ruta para programar reuniones
 router.post('/programar', authenticateToken, programarReunion);
 
-module.exports = router;
+export default router;

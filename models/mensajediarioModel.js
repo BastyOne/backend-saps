@@ -1,4 +1,4 @@
-const { supabase } = require('../config/supabaseClient');
+import { supabase } from '../config/supabaseClient.js';
 
 class MensajeDiario {
     async getAllWithImages() {
@@ -47,4 +47,4 @@ class MensajeDiario {
     }
 }
 
-module.exports = MensajeDiario;
+export default MensajeDiario;

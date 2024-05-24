@@ -1,7 +1,7 @@
-const AuthModel = require('../models/authModel');
+import AuthModel from '../models/authModel.js';
 const authModel = new AuthModel();
 
-exports.login = async (req, res) => {
+export async function login(req, res) {
     const { rut, contraseña } = req.body;
     const numericRut = rut.split('-')[0];
 
@@ -33,4 +33,4 @@ exports.login = async (req, res) => {
         console.error("Error en el servidor:", error);
         res.status(500).send({ message: "Error interno del servidor", error: error.message });
     }
-};
+}

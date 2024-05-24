@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { supabase } = require('../config/supabaseClient');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { supabase } from '../config/supabaseClient.js';
 
 class AuthModel {
     async findUserByRut(rut) {
@@ -40,4 +40,4 @@ class AuthModel {
     }
 }
 
-module.exports = AuthModel;
+export default AuthModel;

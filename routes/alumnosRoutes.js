@@ -1,11 +1,11 @@
-const express = require('express');
-const { addAlumno, getAllAlumnos, getAlumnoById } = require('../controllers/alumnosController');
-const authenticateToken = require('../middleware/authMiddleware');
-const router = express.Router();
+import { Router } from 'express';
+import { addAlumno, getAllAlumnos, getAlumnoById } from '../controllers/alumnosController.js';
+import authenticateToken from '../middleware/authMiddleware.js';
+const router = Router();
 
 router.post('/add', authenticateToken, addAlumno);
 router.get('/', authenticateToken, getAllAlumnos);
 router.get('/:alumnoId', authenticateToken, getAlumnoById);
 
 
-module.exports = router;
+export default router;

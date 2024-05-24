@@ -1,10 +1,10 @@
-const IncidenciaModel = require('../models/incidenciaModel');
-const ArchivoModel = require('../models/archivoModel');
+import IncidenciaModel from '../models/incidenciaModel.js';
+import ArchivoModel from '../models/archivoModel.js';
 
 const incidenciaModel = new IncidenciaModel();
 const archivoModel = new ArchivoModel();
 
-exports.createIncidencia = async (req, res) => {
+export async function createIncidencia(req, res) {
     const { alumno_id, categoriaincidencia_id, descripcion, personal_id, prioridad, carrera_id } = req.body;
     const archivo = req.file;
 
@@ -31,9 +31,9 @@ exports.createIncidencia = async (req, res) => {
         console.error("Error interno del servidor:", error);
         res.status(500).send({ message: "Error interno del servidor", error: error.message });
     }
-};
+}
 
-exports.getIncidenciasPorPersonal = async (req, res) => {
+export async function getIncidenciasPorPersonal(req, res) {
     const { personalId } = req.params;
 
     try {
@@ -43,9 +43,9 @@ exports.getIncidenciasPorPersonal = async (req, res) => {
         console.error("Error al obtener incidencias para el personal:", error);
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
-};
+}
 
-exports.getCategoriasPadre = async (req, res) => {
+export async function getCategoriasPadre(req, res) {
     try {
         const categoriasPadre = await incidenciaModel.getCategoriasPadre();
         res.status(200).json(categoriasPadre);
@@ -53,9 +53,9 @@ exports.getCategoriasPadre = async (req, res) => {
         console.error("Error al obtener categorías padre:", error);
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
-};
+}
 
-exports.getCategoriasHijo = async (req, res) => {
+export async function getCategoriasHijo(req, res) {
     const { padreId } = req.params;
 
     try {
@@ -65,9 +65,9 @@ exports.getCategoriasHijo = async (req, res) => {
         console.error("Error al obtener categorías hijo:", error);
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
-};
+}
 
-exports.getIncidenciasPorAlumno = async (req, res) => {
+export async function getIncidenciasPorAlumno(req, res) {
     const { alumnoId } = req.params;
 
     try {
@@ -77,9 +77,9 @@ exports.getIncidenciasPorAlumno = async (req, res) => {
         console.error("Error al obtener incidencias para el alumno:", error);
         res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
-};
+}
 
-exports.cerrarIncidencia = async (req, res) => {
+export async function cerrarIncidencia(req, res) {
     const { incidenciaId } = req.params;
 
     try {
@@ -94,9 +94,9 @@ exports.cerrarIncidencia = async (req, res) => {
         console.error("Error interno del servidor:", error);
         res.status(500).send({ message: "Error interno del servidor", error: error.message });
     }
-};
+}
 
-exports.reabrirIncidencia = async (req, res) => {
+export async function reabrirIncidencia(req, res) {
     const { incidenciaId } = req.params;
 
     try {
@@ -111,5 +111,5 @@ exports.reabrirIncidencia = async (req, res) => {
         console.error("Error interno del servidor:", error);
         res.status(500).send({ message: "Error interno del servidor", error: error.message });
     }
-};
+}
 

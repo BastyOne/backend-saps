@@ -1,6 +1,7 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+
 const app = express();
 
 app.use(express.json());
@@ -11,13 +12,13 @@ app.get('/', (req, res) => {
   res.send('Backend S.A.P.S está funcionando correctamente.');
 });
 
-const alumnosRoutes = require('./routes/alumnosRoutes');
-const personalRoutes = require('./routes/personalRoutes');
-const authRoutes = require('./routes/authRoutes');
-const faqRoutes = require('./routes/faqRoutes');
-const incidenciaRoutes = require('./routes/incidenciaRoutes');
-const reunionRoutes = require('./routes/reunionRoutes');
-const mensajeDiarioRoutes = require('./routes/mensajeDiarioRoutes');
+import alumnosRoutes from './routes/alumnosRoutes.js';
+import personalRoutes from './routes/personalRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import faqRoutes from './routes/faqRoutes.js';
+import incidenciaRoutes from './routes/incidenciaRoutes.js';
+import reunionRoutes from './routes/reunionRoutes.js';
+import mensajeDiarioRoutes from './routes/mensajeDiarioRoutes.js';
 
 app.use('/alumnos', alumnosRoutes);
 app.use('/personal', personalRoutes);
@@ -27,7 +28,6 @@ app.use('/api/incidencia', incidenciaRoutes);
 app.use('/api/reunion', reunionRoutes);
 
 app.use('/api', mensajeDiarioRoutes);
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

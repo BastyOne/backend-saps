@@ -1,10 +1,10 @@
-const bcrypt = require('bcrypt');
-const { supabase } = require('../config/supabaseClient');
+import { hash } from 'bcrypt';
+import { supabase } from '../config/supabaseClient.js';
 
 class Personal {
   async add({ tipopersona_id, nombre, email, rol_id, contraseña, rut, carrera_id }) {
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(contraseña, saltRounds);
+    const hashedPassword = await hash(contraseña, saltRounds);
 
     const { data, error } = await supabase
       .from('personal')
@@ -70,4 +70,4 @@ class Personal {
   }
 }
 
-module.exports = Personal;
+export default Personal;
