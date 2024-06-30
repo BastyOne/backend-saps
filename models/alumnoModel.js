@@ -14,12 +14,26 @@ class Alumno {
     return { data, error };
   }
 
-  async getAll() {
-    const { data, error } = await supabase
+  async getAll({ carrera_id, nivel } = {}) {
+    let query = supabase
       .from('alumno')
-      .select('*');
+      .select(`
+        *,
+        carrera: carrera_id (nombre)
+      `);
+
+    if (carrera_id) {
+      query = query.eq('carrera_id', carrera_id);
+    }
+
+    if (nivel) {
+      query = query.eq('nivel', nivel);
+    }
+
+    const { data, error } = await query;
     return { data, error };
   }
+
 
   async getById(alumnoId) {
     const { data: alumno, error: alumnoError } = await supabase
@@ -38,7 +52,6 @@ class Alumno {
       throw new Error('Error al obtener el alumno: ' + alumnoError.message);
     }
 
-
     if (alumno) {
       const { data: fotos, error: fotoError } = await supabase
         .from('archivo')
@@ -51,11 +64,23 @@ class Alumno {
         return { ...alumno, foto: null };
       }
 
-
       return { ...alumno, foto: fotos.length > 0 ? fotos[0].archivo_url : null };
     }
 
     return null;
+  }
+
+  async update(alumnoId, { celular, contactoemergencia, ciudadactual }) {
+    const { data, error } = await supabase
+      .from('alumno')
+      .update({ celular, contactoemergencia, ciudadactual })
+      .eq('id', alumnoId)
+      .select();
+
+    if (error) throw new Error('Error al actualizar alumno: ' + error.message);
+    if (!data || data.length === 0) throw new Error('Alumno no encontrado o no se realizaron cambios');
+
+    return data[0];
   }
 }
 

@@ -9,10 +9,10 @@ const archivoModel = new ArchivoModel();
 // Crear un nuevo post
 export const crearPost = async (req, res) => {
     try {
-        const { autor_id, pregunta, contenido } = req.body;
+        const { autor_id, pregunta, contenido, es_anonimo } = req.body;
         const archivo = req.file;
 
-        const { data: foroData, error: foroError } = await postForo.add({ autor_id, pregunta, contenido });
+        const { data: foroData, error: foroError } = await postForo.add({ autor_id, pregunta, contenido, es_anonimo });
         if (foroError || !foroData) {
             return res.status(400).send({ message: "Error al crear el post, no se recibieron datos." });
         }
@@ -32,6 +32,7 @@ export const crearPost = async (req, res) => {
         res.status(500).send({ message: "Error interno del servidor", error: error.message });
     }
 }
+
 
 // Obtener todos los posts con detalles del autor
 export const obtenerPosts = async (req, res) => {

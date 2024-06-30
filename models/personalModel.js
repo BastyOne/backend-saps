@@ -44,7 +44,6 @@ class Personal {
       throw new Error('Error al obtener el personal: ' + personalError.message);
     }
 
-
     if (personal.length === 0) {
       throw new Error('No se encontró el personal con el ID especificado');
     } else if (personal.length > 1) {
