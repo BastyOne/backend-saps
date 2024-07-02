@@ -13,8 +13,10 @@
     }
   ],
   "env": {
-    "SUPABASE_URL": "@supabase-url",
-    "SUPABASE_KEY": "@supabase-key",
-    "JWT_SECRET": "@jwt-secret" 
+    "SUPABASE_URL": "https://sxgobywsaifnczjstxqe.supabase.co",
+    "SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4Z29ieXdzYWlmbmN6anN0eHFlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxMjYwNjI1OCwiZXhwIjoyMDI4MTgyMjU4fQ.E6opHDSbifkxUTsi-e6mhVQW3syTcmMURV8Fjz5io3w",
+    "JWT_SECRET": "1ItxjlFPpaWbTORnwr3gY7A3hM7Yqp2dGGp/7lLu7J/M5mAFEl+WfW0dF5yqz6vIcHBZE827F9iJJ7JcslrSog==",
+    "EMAIL_USER": "sistema.incidencias.ucm@gmail.com",
+    "EMAIL_PASS": "ujfd aftw cwku utlo"
   }
 }
