@@ -12,9 +12,11 @@
       "dest": "/server.js"
     }
   ],
-  "env": {
+ "env": {
     "SUPABASE_URL": "@supabase-url",
     "SUPABASE_KEY": "@supabase-key",
-    "JWT_SECRET": "@jwt-secret" 
+    "JWT_SECRET": "@jwt-secret",
+    "EMAIL_USER": "@email-user",
+    "EMAIL_PASS": "@email-pass"
   }
 }
